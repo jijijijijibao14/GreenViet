@@ -3,6 +3,18 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Eye, Ban, Waypoints, Leaf, Download, Upload } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { API, User, templates, ForestArt, SectionHead } from '../components/shared';
+
+const passportPhotos = [
+  {
+    src: 'https://icdn.dantri.com.vn/dansinh/2024/06/19/vooc-cha-va-chan-nau-1718772512537.jpg',
+    alt: 'Voọc chà vá chân nâu trên bán đảo Sơn Trà',
+  },
+  {
+    src: 'https://images2.thanhnien.vn/528068263637045248/2025/11/3/a8377fe158bdd4e38dac-1762142951171955547610.jpg',
+    alt: 'Voọc chà vá chân nâu được giải cứu trên bán đảo Sơn Trà',
+  },
+];
+
 export default function PassportPage({
   user,
   token,
@@ -15,7 +27,7 @@ export default function PassportPage({
   const [template, setTemplate] = useState(0);
   const [name, setName] = useState(user?.name || 'Minh Anh');
   const [checks, setChecks] = useState([true, true, true]);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(passportPhotos[0].src);
   const [msg, setMsg] = useState('');
   const cardRef = useRef<HTMLDivElement>(null);
   const allChecked = checks.every(Boolean);
@@ -91,20 +103,25 @@ export default function PassportPage({
               <span className="step">1</span> Chọn ảnh voọc
             </h3>
             <div className="template-row">
-              {templates.map((c, i) => (
+              {passportPhotos.map((photo, i) => (
                 <button
-                  key={c}
+                  key={photo.src}
                   className={`template-swatch ${template === i ? 'selected' : ''}`}
-                  style={{ background: c }}
+                  style={{
+                    backgroundImage: `linear-gradient(#0003, #0003), url("${photo.src}")`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                  }}
                   onClick={() => {
                     setTemplate(i);
-                    setImage('');
+                    setImage(photo.src);
                   }}
-                  aria-label={`Chọn mẫu ${i + 1}`}
+                  aria-label={`Chọn ảnh voọc ${i + 1}`}
+                  aria-pressed={template === i}
                 >{`Ảnh ${i + 1}${template === i ? ' ✓' : ''}`}</button>
               ))}
             </div>
-            <p className="helper">Mẫu minh họa tự tạo; có thể tải ảnh của bạn lên để xem trước.</p>
+            <p className="helper">Chọn một trong hai ảnh voọc hoặc tải ảnh của bạn lên để xem trước.</p>
             <label className="upload-button">
               <Upload size={18} /> Tải ảnh từ thiết bị
               <input
@@ -170,7 +187,14 @@ export default function PassportPage({
               </div>
               <div className="passport-main">
                 <div className="passport-photo" style={{ background: templates[template] }}>
-                  {image ? <img src={image} alt="Ảnh tải lên" /> : <ForestArt />}
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={image.startsWith('data:') ? 'Ảnh tải lên' : passportPhotos[template].alt}
+                    />
+                  ) : (
+                    <ForestArt />
+                  )}
                 </div>
                 <div className="passport-info">
                   <small>TÊN KHÁCH</small>
