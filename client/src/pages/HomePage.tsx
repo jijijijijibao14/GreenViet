@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Eye, Ban, Waypoints, Upload, ImagePlus, X } from 'lucide-react';
-import { Chip, ForestArt, SectionHead, RuleCards } from '../components/shared';
+import { Chip, SectionHead, RuleCards } from '../components/shared';
 export default function HomePage() {
   return (
     <>
@@ -96,6 +96,9 @@ export default function HomePage() {
   );
 }
 
+const DEFAULT_HERO_IMAGE =
+  'https://tapchivietnamhuongsac.vn/stores/news_dataimages/tapchivietnamhuongsacvn/102023/14/11/ngam-nhin-nhung-chu-vooc-cha-va-chan-nau-quy-hiem-17-.7087.jpg';
+
 function HomeHeroUpload() {
   const [preview, setPreview] = useState<{
     url: string;
@@ -148,7 +151,11 @@ function HomeHeroUpload() {
             </video>
           )
         ) : (
-          <ForestArt />
+          <img
+            className="hero-uploaded-image"
+            src={DEFAULT_HERO_IMAGE}
+            alt="Voọc chà vá chân nâu quý hiếm"
+          />
         )}
         {preview && (
           <button
