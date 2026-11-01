@@ -107,18 +107,17 @@ export default function PassportPage({
                 <button
                   key={photo.src}
                   className={`template-swatch ${template === i ? 'selected' : ''}`}
-                  style={{
-                    backgroundImage: `linear-gradient(#0003, #0003), url("${photo.src}")`,
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                  }}
+                  style={{ background: templates[i] }}
                   onClick={() => {
                     setTemplate(i);
                     setImage(photo.src);
                   }}
                   aria-label={`Chọn ảnh voọc ${i + 1}`}
                   aria-pressed={template === i}
-                >{`Ảnh ${i + 1}${template === i ? ' ✓' : ''}`}</button>
+                >
+                  <img src={photo.src} alt="" referrerPolicy="no-referrer" />
+                  <span>{`Ảnh ${i + 1}${template === i ? ' ✓' : ''}`}</span>
+                </button>
               ))}
             </div>
             <p className="helper">Chọn một trong hai ảnh voọc hoặc tải ảnh của bạn lên để xem trước.</p>
@@ -191,6 +190,8 @@ export default function PassportPage({
                     <img
                       src={image}
                       alt={image.startsWith('data:') ? 'Ảnh tải lên' : passportPhotos[template].alt}
+                      referrerPolicy="no-referrer"
+                      crossOrigin={image.startsWith('data:') ? undefined : 'anonymous'}
                     />
                   ) : (
                     <ForestArt />

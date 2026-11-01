@@ -567,6 +567,20 @@ a {
   color: #fff;
   font-weight: 700;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.template-swatch img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.75;
+}
+.template-swatch span {
+  position: relative;
+  text-shadow: 0 1px 3px #000;
 }
 .template-swatch.selected {
   outline: 3px solid #65df42;
